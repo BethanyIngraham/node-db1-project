@@ -1,30 +1,54 @@
 const router = require('express').Router()
 const Accounts = require('./accounts-model');
-
+const {
+  checkAccountId, 
+  checkAccountNameUnique, 
+  checkAccountPayload
+} = require('./accounts-middleware');
 
 router.get('/', async (req, res, next) => {
   try {
     const accounts = await Accounts.getAll();
-    res.status(200).json(accounts);
+    res.json(accounts);
   } catch(err) {
     next(err)
   }
 })
 
-router.get('/:id', (req, res, next) => {
-  
+router.get('/:id', 
+  checkAccountId, 
+  (req, res, next) => { // eslint-disable-line
+  res.json(req.account);
 })
 
-router.post('/', (req, res, next) => {
- 
+router.post('/', 
+  checkAccountPayload, 
+  checkAccountNameUnique, 
+  (req, res, next) => {
+  try {
+    res.json('post new account')
+  }catch(err) {
+    next(err);
+  }
 })
 
-router.put('/:id', (req, res, next) => {
- 
+router.put('/:id', 
+  checkAccountId, 
+  checkAccountPayload, 
+  checkAccountNameUnique, (req, res, next) => {
+  try {
+    res.json('update existing account by id')
+  }catch(err) {
+    next(err);
+  }
 });
 
-router.delete('/:id', (req, res, next) => {
-  
+router.delete('/:id', checkAccountId, (req, res, next) => {
+  try {
+    res.json('delete account by id')
+  }catch(err) {
+    next(err);
+  }
 })
 
 router.use((err, req, res, next) => { // eslint-disable-line
