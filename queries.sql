@@ -13,10 +13,13 @@ WHERE SupplierID=11;
 -- List first 10 orders placed, sorted descending by the order date
 SELECT TOP 10 * 
 FROM Orders
-ORDER BY OrderDate DESC, OrderID DESC;
+ORDER BY 
+OrderDate DESC, 
+OrderID DESC;
 
 -- Find all customers that live in London, Madrid, or Brazil
-SELECT * FROM Customers
+SELECT *
+FROM Customers
 WHERE 
 City = 'London' 
 or City = 'Madrid' 
@@ -31,7 +34,7 @@ VALUES
 -- Update Bilbo Baggins record so that the postal code changes to "11122"
 UPDATE Customers 
 SET PostalCode = '11122' 
-WHERE CustomerName = 'Bilbo Baggins';
+WHERE ContactName = 'Bilbo Baggins';
 
 -- (Stretch) Find a query to discover how many different cities are stored in the Customers table. Repeats should not be double counted
 SELECT COUNT (DISTINCT City) FROM Customers;
