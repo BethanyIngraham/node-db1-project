@@ -27,7 +27,10 @@ router.post('/',
   async (req, res, next) => {
   try {
     const {name, budget} = req.body;
-    const newAccount = await Accounts.create({name: name.trim(), budget: budget})
+    const newAccount = await Accounts.create({
+      name: name.trim(), 
+      budget: budget
+    });
     res.status(201).json(newAccount);
   }catch(err) {
     next(err);
@@ -37,10 +40,15 @@ router.post('/',
 router.put('/:id', 
   checkAccountId, 
   checkAccountPayload, 
-  checkAccountNameUnique, 
-  (req, res, next) => {
+  async (req, res, next) => {
   try {
-    res.json('update existing account by id')
+   const {id} = req.params;
+   const {name, budget} = req.body;
+   const updatedAccount = await Accounts.updateById(id, {
+    name: name.trim(), 
+    budget: budget
+  });
+   res.json(updatedAccount);
   }catch(err) {
     next(err);
   }
