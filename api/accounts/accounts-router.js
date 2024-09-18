@@ -11,7 +11,7 @@ router.get('/', async (req, res, next) => {
     const accounts = await Accounts.getAll();
     res.json(accounts);
   } catch(err) {
-    next(err)
+    next(err);
   }
 })
 
@@ -22,7 +22,7 @@ router.get('/:id',
 })
 
 router.post('/', 
-  checkAccountPayload, 
+  checkAccountPayload,
   checkAccountNameUnique, 
   (req, res, next) => {
   try {
