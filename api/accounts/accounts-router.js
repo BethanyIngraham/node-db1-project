@@ -37,7 +37,8 @@ router.post('/',
 router.put('/:id', 
   checkAccountId, 
   checkAccountPayload, 
-  checkAccountNameUnique, (req, res, next) => {
+  checkAccountNameUnique, 
+  (req, res, next) => {
   try {
     res.json('update existing account by id')
   }catch(err) {
@@ -45,9 +46,13 @@ router.put('/:id',
   }
 });
 
-router.delete('/:id', checkAccountId, (req, res, next) => {
+router.delete('/:id', 
+  checkAccountId, 
+  async (req, res, next) => {
   try {
-    res.json('delete account by id')
+    const {id} = req.params;
+    await Accounts.deleteById(id);
+    res.json(req.account);
   }catch(err) {
     next(err);
   }
